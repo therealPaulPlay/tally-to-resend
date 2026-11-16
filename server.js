@@ -51,9 +51,9 @@ app.post('/webhook', async (req, res) => {
 
             // Send confirmation email
             const { error: sendError } = await resend.emails.send({
-                from: 'ROOT <paul@rootprivacy.com>',
+                from: 'Paul from ROOT <paul@rootprivacy.com>',
                 to: [emailAddress],
-                subject: 'ROOT email list',
+                subject: 'Added to the email list',
                 html: `<p>Hi ${name.replaceAll("<", "").replaceAll(">", "")},<br><br>thank you for joining the ROOT email list!<br><br>Kind regards,<br>Paul from ROOT</p>`,
             });
             if (sendError) {
