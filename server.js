@@ -1,13 +1,14 @@
 import { Resend } from 'resend';
 import express from "express";
 import { createHmac } from 'node:crypto';
-import "dotenv/config";
+import { httpServerHandler } from "cloudflare:node";
+
+const PORT = 3000;
 
 const app = express();
+app.use(express.json()); // Parse all incoming json
 
-// Parse all incoming json
-app.use(express.json());
-
+// The secrets are loaded by the workers runtime & are configured via Cloudflare
 const WEBHOOK_SIGNING_SECRET = process.env.WEBHOOK_SIGNING_SECRET;
 const RESEND_API_KEY = process.env.RESEND_API_KEY;
 const RESEND_SEGMENT_ID = process.env.RESEND_SEGMENT_ID; // The ROOT segment (a segment is like a group of contacts, though contacts can be part of multiple groups)
@@ -71,7 +72,11 @@ app.post('/webhook', async (req, res) => {
     }
 });
 
-app.listen(3000, () => console.log('Server is running on port 3000.'));
+app.listen(PORT, () => console.log(`Server is running on port ${PORT}.`));
+
+// For Cloudflare workers to know where the entry point for incoming requests is
+// It will forward incoming requests to it (and on port 3000 Express is listening)
+export default httpServerHandler({ port: PORT });
 
 /*
 Example webhook request:
