@@ -12,9 +12,7 @@ app.use(express.json()); // Parse all incoming json
 const WEBHOOK_SIGNING_SECRET = process.env.WEBHOOK_SIGNING_SECRET;
 const RESEND_API_KEY = process.env.RESEND_API_KEY;
 const RESEND_SEGMENT_ID = process.env.RESEND_SEGMENT_ID; // The ROOT segment (a segment is like a group of contacts, though contacts can be part of multiple groups)
-
-// Throw if any of these secrets are missing
-if (!WEBHOOK_SIGNING_SECRET || !RESEND_API_KEY || !RESEND_SEGMENT_ID) throw new Error("Required secrets are unset, check the .env loading");
+if (!WEBHOOK_SIGNING_SECRET || !RESEND_API_KEY || !RESEND_SEGMENT_ID) throw new Error("Required secrets are unset, ensure the .env is loaded correctly");
 
 const resend = new Resend(RESEND_API_KEY);
 
@@ -111,5 +109,4 @@ Example webhook request:
         ]
     }
 }
-
 */
