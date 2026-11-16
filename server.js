@@ -51,10 +51,10 @@ app.post('/webhook', async (req, res) => {
 
             // Send confirmation email
             const { error: sendError } = await resend.emails.send({
-                from: 'Paul from ROOT <paul@rootprivacy.com>',
+                from: 'ROOT <paul@rootprivacy.com>',
                 to: [emailAddress],
                 subject: 'ROOT email list',
-                html: `<p>Hi ${name.replaceAll("<", "").replaceAll(">", "")}, thank you for joining the ROOT email list!</p>`,
+                html: `<p>Hi ${name.replaceAll("<", "").replaceAll(">", "")},<br><br>thank you for joining the ROOT email list!<br><br>Kind regards,<br>Paul from ROOT</p>`,
             });
             if (sendError) {
                 console.error("Resend confirmation email send error:", sendError);
